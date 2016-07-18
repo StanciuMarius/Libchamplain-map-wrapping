@@ -2969,6 +2969,9 @@ zoom_animation_completed (ClutterActor *actor,
   if (priv->hwrap)
     update_clones (view);
 
+  if (priv->tiles_loading == 0)
+    clutter_actor_destroy_all_children (priv->zoom_layer);
+
   g_signal_handlers_disconnect_by_func (actor, zoom_animation_completed, view);
 }
 
