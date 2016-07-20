@@ -3089,7 +3089,15 @@ show_zoom_actor (ChamplainView *view,
         
       if (!priv->animating_zoom)
         {
-          clutter_actor_hide (priv->user_layers);
+          if (priv->hwrap)
+            {
+              GList *slot;
+              for (slot = priv->user_layer_slots; slot != NULL; slot = slot->next)
+                clutter_actor_hide (CLUTTER_ACTOR (slot->data));
+            }
+          else
+            clutter_actor_hide (priv->user_layers);
+
           g_signal_connect (zoom_actor, "transition-stopped::scale-x", G_CALLBACK (zoom_animation_completed), view);
         }
         
